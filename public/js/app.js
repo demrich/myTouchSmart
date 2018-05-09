@@ -36308,15 +36308,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var fakeServerData = {
-    category: {
-        title: 'indoor',
-        background: 'https://fakeimg.pl/460/',
-        featuredImage: '',
-        float: 'left',
-        content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
-    }
-};
+var fakeServerData = [{ title: 'indoor',
+    background: 'https://fakeimg.pl/460/',
+    featuredImage: '',
+    float: 'left',
+    content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
+}, { title: 'outdoor',
+    background: 'https://fakeimg.pl/460/',
+    featuredImage: '',
+    float: 'left',
+    content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
+}, { title: 'in-wall',
+    background: 'https://fakeimg.pl/460/',
+    featuredImage: '',
+    float: 'left',
+    content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
+}];
 
 function HeroTitle(props) {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36357,11 +36364,12 @@ var CategorySection = function (_Component2) {
     _createClass(CategorySection, [{
         key: 'render',
         value: function render() {
+
             ///////////// CSS STYLES////////////////////////////
             var categoryBackground = {
                 background: 'url(' + this.props.background + ')',
                 width: '100%',
-                height: '350px'
+                height: '30rem'
             };
 
             var titleBar = {
@@ -36378,6 +36386,21 @@ var CategorySection = function (_Component2) {
                 color: 'white',
                 fontSize: '4em',
                 textTransform: 'uppercase'
+            };
+
+            var content = {
+                textAlign: 'center',
+                fontSize: '2em',
+                padding: '6% 8% 3% 8%',
+                margin: 'auto'
+            };
+
+            var hr = {
+                width: '75%',
+                height: '2px',
+                color: '#eee',
+                backgrundCOlor: '#eee',
+                borderTop: '3px solid #929292'
                 ////////////////////////////////////////////////////////
 
             };return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36392,7 +36415,13 @@ var CategorySection = function (_Component2) {
                         { style: title },
                         this.props.title
                     )
-                )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'p',
+                    { style: content },
+                    this.props.content
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', { style: hr })
             );
         }
     }]);
@@ -36406,19 +36435,37 @@ var Main = function (_Component3) {
     function Main() {
         _classCallCheck(this, Main);
 
-        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+        var _this3 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
+
+        _this3.state = { serverData: fakeServerData };
+        return _this3;
     }
 
     _createClass(Main, [{
         key: 'render',
         value: function render() {
+            var data = this.state.serverData;
+            var DataToRender = data && data.title ? data.map(function (category) {
+                var title = data.title;
+                var background = data.background;
+                var content = data.content;
+                return title || background || content;
+            }) : [];
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(HeroCategory, null),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CategorySection, { title: 'indoor', background: 'https://fakeimg.pl/460/' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CategorySection, { title: 'outdoor', background: 'https://fakeimg.pl/460/' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CategorySection, { title: 'in-wall', background: 'https://fakeimg.pl/460/' })
+                data ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(HeroCategory, null),
+                    data.map(function (category, i) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CategorySection, {
+                            key: i,
+                            title: category.title, background: category.background,
+                            content: category.content });
+                    })
+                ) : 'loading'
             );
         }
     }]);

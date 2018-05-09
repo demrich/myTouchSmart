@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-let fakeServerData = {
-    category: {
-        title: 'indoor',
-        background: 'https://fakeimg.pl/460/',
-        featuredImage: '',
-        float: 'left',
-        content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
-    }
-};
+let fakeServerData = [ 
+ {  title: 'indoor',
+    background: 'https://fakeimg.pl/460/',
+    featuredImage: '',
+    float: 'left',
+    content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
+ },
+ {  title: 'outdoor',
+    background: 'https://fakeimg.pl/460/',
+    featuredImage: '',
+    float: 'left',
+    content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
+ },
+ {  title: 'in-wall',
+    background: 'https://fakeimg.pl/460/',
+    featuredImage: '',
+    float: 'left',
+    content: 'Duis ullamco eiusmod veniam aliquip ea ipsum magna tempor qui Lorem sit. Id amet enim commodo eiusmod laborum reprehenderit. Elit fugiat velit elit veniam ea Lorem velit irure ea ipsum magna. Laborum excepteur sit aliqua veniam elit enim est eu non ex est. Dolor labore dolore eiusmod ad tempor.'
+ }
+];
 
 
 function HeroTitle(props) {
@@ -29,14 +40,15 @@ class HeroCategory extends Component {
 class CategorySection extends Component {
 
     render() {
+
 ///////////// CSS STYLES////////////////////////////
-        var categoryBackground = {
+        let categoryBackground = {
             background: 'url(' + this.props.background +')', 
             width: '100%',
-            height: '350px'
+            height: '30rem'
         }
 
-        var titleBar = {
+        let titleBar = {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -46,11 +58,26 @@ class CategorySection extends Component {
             textAlign: 'center'
         }
 
-        var title = {
+        let title = {
             color: 'white',
             fontSize: '4em',
             textTransform: 'uppercase'
         }
+
+        let content = {
+            textAlign: 'center',
+            fontSize: '2em',
+            padding: '6% 8% 3% 8%',
+            margin: 'auto'
+        }
+
+        let hr = {
+            width: '75%',
+            height: '2px',
+            color: '#eee',
+            backgrundCOlor: '#eee',
+            borderTop: '3px solid #929292'
+            }
 ////////////////////////////////////////////////////////
 
       return (
@@ -59,20 +86,43 @@ class CategorySection extends Component {
         <div style={titleBar}>
         <h2 style= {title}>{this.props.title}</h2>
         </div>
+        <p style={content}>{this.props.content}</p>
+        <hr style={hr} />
         </div>
       )
     }
 }
 
 class Main extends Component {
+    constructor() {
+        super();
+        this.state = {serverData: fakeServerData}
+    }
+    
     render() {
+        let data = this.state.serverData;
+        let DataToRender = data && data.title ? data.map(category =>{
+            let title = data.title
+            let background = data.background
+            let content = data.content
+            return title || background || content
+        }) : []
+        
         return (
         <div>
+            {data ?
+            <div>
             <HeroCategory />
-            <CategorySection title="indoor" background="https://fakeimg.pl/460/" />
-            <CategorySection title="outdoor" background="https://fakeimg.pl/460/" />
-            <CategorySection title="in-wall" background="https://fakeimg.pl/460/" />
-
+            
+            {data.map((category, i) => {
+             return <CategorySection 
+             key={i} 
+             title={category.title} background= {category.background} 
+             content={category.content} />
+            })}
+            
+            </div>
+           : 'loading' }
         </div>
         );
     }
